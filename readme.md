@@ -16,7 +16,7 @@
 
   - 修改xinghuodemo/main.js中的代码，填写自己的APPID，APISecret，APIKey
 
-    - ```
+    ```
     	let requestObj = {
     	    APPID: '',
     	    APISecret: '',
@@ -24,15 +24,15 @@
     	    Uid:"随机用户名",
     	    sparkResult: ''
     	}
-    	```
+    ```
 
 - 然后执行下面指令
 
-	- ```
+	```
     cd xinghuodemo
     pnpm i
     pnpm run dev
-    ```
+  ```
   
 - 然后访问地址，可以开始使用啦
 
