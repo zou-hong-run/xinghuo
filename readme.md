@@ -37,4 +37,6 @@
 - 然后访问地址，可以开始使用啦
 
   - http://localhost:5173/
+  - ![cover](cover.png)
+  
 
