@@ -18,7 +18,8 @@
 
 ## 项目地址
 [zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
-
+## 演示视频地址
+[讯飞星火认知大模型接入网页demo演示(项目接入大模型功能)_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV12V411L7x2/?vd_source=610a594fa963f7a0a861e63e55503d54)
 ## 运行项目
 
 - 下载该项目
@@ -279,4 +280,7 @@ const addMsgToTextarea = (text) => {
 
 ## 结尾
 
-很久前我就开始研究如何接入各家大模型，但是人家还没有开放api出来，星火大模型是最先出的，很棒！！
+很久前我就开始研究如何接入各家大模型，但是人家还没有开放api出来，星火大模型是最先出的，太棒了！！
+觉得不错的请三连支持一下！！！bxin
+
+![4C720CEC.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4843b0de29df41199e05b99f1e4d08a6~tplv-k3u1fbpfcp-watermark.image?)
