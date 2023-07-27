@@ -32,7 +32,7 @@
     cd xinghuodemo
     pnpm i
     pnpm run dev
-    ```
+  ```
   
 - 然后访问地址，可以开始使用啦
 
