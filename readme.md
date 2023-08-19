@@ -49,7 +49,7 @@
 - 然后执行下面指令
 
 	```
-    cd xinghuodemo
+    cd xinghuo
     pnpm i
     pnpm run dev
   ```
