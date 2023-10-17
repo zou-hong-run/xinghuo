@@ -9,7 +9,7 @@ let requestObj = {
     APPID: '',
     APISecret: '',
     APIKey: '',
-    Uid:"red润",
+    Uid: "red润",
     sparkResult: ''
 }
 // 点击发送信息按钮
