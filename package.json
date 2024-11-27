@@ -12,9 +12,6 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "base-64": "^1.0.0",
-    "crypto-js": "^4.1.1",
-    "fast-xml-parser": "^4.2.6",
-    "utf8": "^3.0.0"
+    "crypto-js": "^4.1.1"
   }
 }
