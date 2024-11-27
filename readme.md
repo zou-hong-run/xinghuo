@@ -37,7 +37,7 @@ new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
 - 到讯飞控制台添加一个应用，这样可以获取 APPID，APISecret，APIKey等
 
   - [控制台-讯飞开放平台 (xfyun.cn)](https://console.xfyun.cn/app/myapp)
-  - ![image-20241127205146625](readme.assets/image-20241127205146625.png)
+  - ![image-20241127211126789](readme.assets/image-20241127211126789.png)
 
 - 打开我们项目
 
@@ -48,6 +48,7 @@ new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
     - 这里的Spark Max对应下面的注释
     
     ```
+    .env
     // Tips: 星火大模型API当前有Lite、Pro、Pro-128K、Max、Max-32K和4.0 Ultra六个版本，各版本独立计量tokens。
     
     // 传输协议 ：ws(s),为提高安全性，强烈推荐wss
