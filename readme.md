@@ -24,8 +24,10 @@ new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
 
 ## 项目地址
 [zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
-## 演示视频地址
-[讯飞星火认知大模型接入网页demo演示(项目接入大模型功能)_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV12V411L7x2/?vd_source=610a594fa963f7a0a861e63e55503d54)
+
+## 项目演示、项目部署视频地址
+[项目接入ai讯飞星火大模型4.0Ultra以及其他版本（全新架构）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV19kBRYjEc9/?vd_source=610a594fa963f7a0a861e63e55503d54)
+
 ## 运行项目
 
 - 下载该项目
