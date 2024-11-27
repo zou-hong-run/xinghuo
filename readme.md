@@ -84,11 +84,40 @@ new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
 
 - 然后执行下面指令
 
-	```
-    cd xinghuo
-    npm i
-    npm run dev
-  ```
+	- 电脑上需要安装node[Node.js — 在任何地方运行 JavaScript](https://nodejs.org/zh-cn)
+  
+  - ![image-20241127210540452](readme.assets/image-20241127210540452.png)
+  
+  	
+    
+  - ```
+  G:\Desktop\星火大模型\xinghuo>node -v
+  	v18.16.1
+    
+    G:\Desktop\星火大模型\xinghuo>npm -v
+    9.5.1
+    
+    G:\Desktop\星火大模型\xinghuo>npm i
+    
+    up to date in 1s
+    
+    3 packages are looking for funding
+      run `npm fund` for details      
+    
+    G:\Desktop\星火大模型\xinghuo>npm run dev
+    
+    > xinhuo@0.0.0 dev
+    > vite
+    
+    
+      VITE v4.5.5  ready in 386 ms
+    
+      ➜  Local:   http://localhost:8080/
+      ➜  Network: http://192.168.0.106:8080/
+      ➜  press h to show help
+    
+    
+    ```
   
 - 然后访问地址，可以开始使用啦
 
