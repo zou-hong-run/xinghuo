@@ -14,7 +14,13 @@
 
 我通过星火大模型提供的开放api，将大模型成功接入到自己网页中
 
+old
+
 ![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81a346ca522a46a7b585b389f622a996~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+
+new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
 
 ## 项目地址
 [zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
@@ -31,36 +37,67 @@
 - 到讯飞控制台添加一个应用，这样可以获取 APPID，APISecret，APIKey等
 
   - [控制台-讯飞开放平台 (xfyun.cn)](https://console.xfyun.cn/app/myapp)
+  - ![image-20241127205146625](readme.assets/image-20241127205146625.png)
 
 - 打开我们项目
 
-  - 修改xinghuodemo/main.js中的代码，填写自己的APPID，APISecret，APIKey
+  - 修改xinghuodemo/.env中的代码，填写自己的APPID，APISecret，APIKey
 
+  - <img src="readme.assets/image-20241127205341543.png" alt="image-20241127205341543" style="zoom: 50%;" />
+
+    - 这里的Spark Max对应下面的注释
+    
     ```
-    	let requestObj = {
-    	    APPID: '',
-    	    APISecret: '',
-    	    APIKey: '',
-    	    Uid:"随机用户名",
-    	    sparkResult: ''
-    	}
+    // Tips: 星火大模型API当前有Lite、Pro、Pro-128K、Max、Max-32K和4.0 Ultra六个版本，各版本独立计量tokens。
+    
+    // 传输协议 ：ws(s),为提高安全性，强烈推荐wss
+    
+    // Spark4.0 Ultra 请求地址，对应的domain参数为4.0Ultra：
+    // wss://spark-api.xf-yun.com/v4.0/chat
+    
+    // Spark Max-32K请求地址，对应的domain参数为max-32k
+    // wss://spark-api.xf-yun.com/chat/max-32k
+    
+    // Spark Max请求地址，对应的domain参数为generalv3.5
+    // wss://spark-api.xf-yun.com/v3.5/chat
+    
+    // Spark Pro-128K请求地址，对应的domain参数为pro-128k：
+    //  wss://spark-api.xf-yun.com/chat/pro-128k
+    
+    // Spark Pro请求地址，对应的domain参数为generalv3：
+    // wss://spark-api.xf-yun.com/v3.1/chat
+    
+    // Spark Lite请求地址，对应的domain参数为lite：
+    // wss://spark-api.xf-yun.com/v1.1/chat
+    
+    // 填写对应 appid apisecret apikey
+    VITE_APP_SPARK_APPID='xxx'
+    VITE_APP_SPARK_APISECRET='xx'
+    VITE_APP_SPARK_APIKEY='xx#   '
+    // 看上面注释，选择对应版本的domain
+    VITE_APP_DOMAIN='generalv3'
+    // 看上面注释，选择对应的地址
+    VITE_APP_SPARK_URL='wss://spark-api.xf-yun.com/v3.1/chat'
+    // 用户唯一标识（随便填）
+    VITE_APP_SPARK_UID='red润'
     ```
 
 - 然后执行下面指令
 
 	```
     cd xinghuo
-    pnpm i
-    pnpm run dev
+    npm i
+    npm run dev
   ```
   
 - 然后访问地址，可以开始使用啦
 
   - http://localhost:5173/
-  - ![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/609648b265fb424191787396e283473d~tplv-k3u1fbpfcp-zoom-1.image)
+  - old![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/609648b265fb424191787396e283473d~tplv-k3u1fbpfcp-zoom-1.image)
+  - new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
   
 
-## show代码
+## show代码(old版本，可以看看老版本是如何实现的，可以和新版本的做对比)
 
 > 网页布局代码
 
@@ -284,3 +321,19 @@ const addMsgToTextarea = (text) => {
 觉得不错的请三连支持一下！！！bxin
 
 ![4C720CEC.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4843b0de29df41199e05b99f1e4d08a6~tplv-k3u1fbpfcp-watermark.image?)
+
+## 公众号
+
+已经接入ai，可以找他聊天，没事更点技术文章
+
+[zou-hong-run/wechat-ai-spark: 微信公众号接入AI讯飞星火认知大模型（express+websocket）](https://github.com/zou-hong-run/wechat-ai-spark)
+
+![f3f0ccc536a805b6ddad099ee1548cad](readme.assets/f3f0ccc536a805b6ddad099ee1548cad.png)
+
+## 赞助
+
+您的支持是我最大的更新动力
+
+<img src="readme.assets/mm_facetoface_collect_qrcode_1732632562648.png" alt="mm_facetoface_collect_qrcode_1732632562648" style="zoom:25%;" />
+
+<img src="readme.assets/1732632622.jpg" alt="1732632622" style="zoom:25%;" />
