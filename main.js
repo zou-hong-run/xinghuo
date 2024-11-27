@@ -22,7 +22,7 @@ const sendMsg = async () => {
 
     // 获取输入框中的内容
     let inputVal = questionInput.value;
-    questionInput.value = "消息加载中"
+    questionInput.value = "消息加载中。。。"
     chatHistoryList.push({ role: 'user', content: inputVal });
     const params = getParams(chatHistoryList);
     // 每次发送问题 都是一个新的websocketqingqiu
@@ -32,7 +32,6 @@ const sendMsg = async () => {
     connect.addEventListener('message', (event) => {
         let data = JSON.parse(event.data)
         // console.log('收到消息！！',data);
-        answer += data.payload.choices.text[0].content
         if (data.header.code !== 0) {
             console.log("出错了", data.header.code, ":", data.header.message);
             // 出错了"手动关闭连接"
@@ -52,7 +51,11 @@ const sendMsg = async () => {
                     // "对话完成，手动关闭连接"
                     connect.close()
                 }, 1000)
-                sendMsgBtn.style.display = 'block'
+                sendMsgBtn.style.display = 'block';
+                questionInput.value = "继续聊天"
+            } else {
+                answer += data.payload.choices.text[0].content
+
             }
         }
     })

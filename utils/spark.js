@@ -45,7 +45,7 @@ export const getParams = (textList) => {
       "chat": {
         "domain": import.meta.env.VITE_APP_DOMAIN,
         "temperature": 0.5,
-        "max_tokens": 2048,
+        "max_tokens": 4096,
       }
     },
     "payload": {
