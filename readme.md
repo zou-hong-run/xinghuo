@@ -10,7 +10,32 @@
 >
 > 这使得该项目的产生
 
-## 项目介绍
+## 项目地址
+
+[zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
+
+## 项目演示、项目部署视频地址
+
+[超棒更新！项目接入ai讯飞大模型4.0Ultra接入functioncall功能_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV19SAmeREix/?spm_id_from=333.1387.homepage.video_card.click)
+
+## 项目介绍（实现的功能）
+
+- 接入讯飞星火**4.0 Ultra**大模型 `API` ,
+
+- 接入 `function call`  
+
+  - 可以让大模型调用自己设置的  `API` 并传递对应的**参数**
+    -  自定义处理逻辑 可以做任何事 和其他软件，硬件通讯，执行爬虫，发送指令，操作其他软件
+    - 注：当前仅Spark Max/4.0 Ultra 支持了该功能；
+    - 需要请求参数payload.functions中申明大模型需要辨别的外部接口
+
+- 历史记录保存，清理
+
+- 上下理解能力，配合历史记录，可以理解用户对话内容
+
+- 内容实时渲染，`websocket` 实时消息渲染每一个字
+
+  
 
 new
 
@@ -28,7 +53,9 @@ old
 >
 > - 2025-02-23 日志 
 >
->   - 新增 `function call` 功能，让 `AI` 打破物理边界，万物互联。
+>   - 新增 `function call` 维护配置模块
+>
+>     - 让 `AI` 打破物理边界，万物互联。
 >
 >     - [星火认知大模型Web API文档 | 讯飞开放平台文档中心](https://www.xfyun.cn/doc/spark/Web.html#_2-function-call说明)
 >
@@ -74,17 +101,15 @@ old
 >         };
 >         ```
 >
->   - 自动保存历史**聊天记录**，提供删除聊天记录功能。
+>   - 新增历史记录维护模块
+>
+>     - 自动保存历史**聊天记录**，提供删除聊天记录功能。
 >
 >   - 优化交互效果，**实时输出**。自动代码片段美化
 >
 >   - 美化页面，可以看老版有多丑哈哈哈哈
 
-## 项目地址
-[zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
 
-## 项目演示、项目部署视频地址
-[项目接入ai讯飞星火大模型4.0Ultra以及其他版本（全新架构）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV19kBRYjEc9/?vd_source=610a594fa963f7a0a861e63e55503d54)
 
 ## 运行项目
 

@@ -6,7 +6,7 @@
 
 // 初始化默认的天气查询 function
 const weatherFunction = {
-  name: "天气查询",
+  name: "天气查询",// 要触发的函数名
   // 描述越清晰越好，大模型会理解你需要的东西，然后传递参数
   description: "天气插件可以提供天气相关信息。你可以提供指定的地点信息、指定的时间点或者时间段信息，来精准检索到天气信息。",
   parameters: {
@@ -21,7 +21,7 @@ const weatherFunction = {
         description: "日期。"
       }
     },
-    required: ["location", 'date']
+    required: ["location"]
   },
   // 自定义处理逻辑 可以做任何事 和其他软件，硬件通讯，执行爬虫，发送指令，操作其他软件
   handler: async (params) => {
