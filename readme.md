@@ -6,25 +6,79 @@
 >
 > 这些大模型给我提供了很好的便利
 >
-> 同时星火大模型提供了 **开放api功能** 使得我们能够将大模型接入到我们自己的项目当中。
+> 同时星火大模型提供了 **开放 `API` 功能** 使得我们能够将大模型接入到我们自己的项目当中。
 >
 > 这使得该项目的产生
 
-## 小提示
-
-> 为了方便大家进行项目二次开发，本项目使用原生`html+js+css`实现，不与任何框架进行绑定。
-
 ## 项目介绍
 
-我通过星火大模型提供的开放api，将大模型成功接入到自己网页中
+new
+
+![demo](readme.assets/demo.gif)
+
+![image-20250223163950477](readme.assets/image-20250223163950477.png)
 
 old
 
 ![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81a346ca522a46a7b585b389f622a996~tplv-k3u1fbpfcp-zoom-1.image)
 
+## 小提示
 
-
-new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
+> 为了方便大家进行项目二次开发，本项目使用原生 `html+javascript+css` 实现，不与任何框架进行绑定。
+>
+> - 2025-02-23 日志 
+>
+>   - 新增 `function call` 功能，让 `AI` 打破物理边界，万物互联。
+>
+>     - [星火认知大模型Web API文档 | 讯飞开放平台文档中心](https://www.xfyun.cn/doc/spark/Web.html#_2-function-call说明)
+>
+>     - 如何定义 function call ，下面代码是我封装的规范，可以去b站看我视频讲解
+>
+>       - ```
+>         // utils/functions.js
+>         /**
+>          * 注：当前仅Spark Max/4.0 Ultra
+>               支持了该功能；需要请求参数payload.functions中申明大模型需要辨别的外部接口
+>          * 
+>          */
+>         
+>         // 初始化默认的天气查询 function
+>         const weatherFunction = {
+>           name: "天气查询",
+>           // 描述越清晰越好，大模型会理解你需要的东西，然后传递参数
+>           description: "天气插件可以提供天气相关信息。你可以提供指定的地点信息、指定的时间点或者时间段信息，来精准检索到天气信息。",
+>           parameters: {
+>             type: "object",
+>             properties: {
+>               location: {
+>                 type: "string",
+>                 description: "地点，比如北京。"
+>               },
+>               date: {
+>                 type: "string",
+>                 description: "日期。"
+>               }
+>             },
+>             required: ["location", 'date']
+>           },
+>           // 自定义处理逻辑 可以做任何事 和其他软件，硬件通讯，执行爬虫，发送指令，操作其他软件
+>           handler: async (params) => {
+>             console.log(params);
+>             let location = params.location;
+>             if (location == "北京") { window.open("https://weather.cma.cn/web/weather/54511.html") }
+>             else if (location == "山东") {
+>               window.open("https://weather.cma.cn/web/weather/013462.html")
+>             }
+>             // return "需要的话可以将返回结果告诉用户"
+>           }
+>         };
+>         ```
+>
+>   - 自动保存历史**聊天记录**，提供删除聊天记录功能。
+>
+>   - 优化交互效果，**实时输出**。自动代码片段美化
+>
+>   - 美化页面，可以看老版有多丑哈哈哈哈
 
 ## 项目地址
 [zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
@@ -129,8 +183,7 @@ new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
 - 然后访问地址，可以开始使用啦
 
   - http://localhost:5173/
-  - old![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/609648b265fb424191787396e283473d~tplv-k3u1fbpfcp-zoom-1.image)
-  - new ![img](readme.assets/d74d32a39faad34f4f92fb3e633fdcc7.png)
+  - ![image-20250223163950477](readme.assets/image-20250223163950477.png)
   
 
 ## show代码(old版本，可以看看老版本是如何实现的，可以和新版本的做对比)

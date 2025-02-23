@@ -70,9 +70,10 @@ const sendMsg = async () => {
             // 实时更新回答内容
             if (data.payload.choices.text) {
                 answer += data.payload.choices.text[0].content;
-
             }
-
+            updateMessageContent(assistantMessageDiv, answer);
+            // 每次更新内容后滚动到底部
+            scrollToBottom();
             // 对话已经完成
             if (data.header.status === 2) {
                 let function_call = data.payload.choices.text[0].function_call;
