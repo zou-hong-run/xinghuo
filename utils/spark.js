@@ -1,5 +1,5 @@
 import CryptoJs from 'crypto-js'
-
+import Functions from './functions'
 const signatureToHmacSHA256ToBase64 = (origin, secret) => {
   let signatureSha = CryptoJs.HmacSHA256(origin, secret);
   let signature = CryptoJs.enc.Base64.stringify(signatureSha);
@@ -36,6 +36,7 @@ const getWebsocketUrl = () => {
  * @returns 
  */
 export const getParams = (textList) => {
+  let functions = Functions.getFunctions()
   let params = {
     "header": {
       "app_id": import.meta.env.VITE_APP_SPARK_APPID,
@@ -53,11 +54,15 @@ export const getParams = (textList) => {
         // 如果想获取结合上下文的回答，需要开发者每次将历史问答信息一起传给服务端，如下示例
         // 注意：text里面的所有content内容加一起的tokens需要控制在8192以内，开发者如有较长对话需求，需要适当裁剪历史信息
         "text": textList
+      },
+      "functions": {
+        "text": functions
       }
     }
-  };
+  }
   return params;
-}
+};
+
 // 每次聊天都要重新建立连接,使用异步等待
 export const getWSConnect = async () => {
   const url = getWebsocketUrl();

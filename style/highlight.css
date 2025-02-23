@@ -1,0 +1,31 @@
+pre {
+  margin: 20px 0;
+  display: block;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #343541;
+  color: white;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.keyword {
+  color: #569cd6; /* 关键字颜色 */
+}
+
+.string {
+  color: #ce9178; /* 字符串颜色 */
+}
+
+.comment {
+  color: #6a9955; /* 注释颜色 */
+}
+
+.function {
+  color: #dcdcaa; /* 函数名颜色 */
+}
+
+.number {
+  color: #b5cea8; /* 数字颜色 */
+}
