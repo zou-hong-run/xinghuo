@@ -9,7 +9,6 @@
 > 同时星火大模型提供了 **开放 `API` 功能** 使得我们能够将大模型接入到我们自己的项目当中。
 >
 > 这使得该项目的产生
-
 ## 项目地址
 
 [zou-hong-run/xinghuo: 讯飞星火认知大模型接入网页 (github.com)](https://github.com/zou-hong-run/xinghuo)
@@ -36,7 +35,8 @@
 - 内容实时渲染，`websocket` 实时消息渲染每一个字
 
   
-
+## 体验地址（感谢git pages）
+https://zou-hong-run.github.io/xinghuo/dist/index.html
 new
 
 ![demo](readme.assets/demo.gif)
