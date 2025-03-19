@@ -76,7 +76,7 @@ const sendMsg = async () => {
             scrollToBottom();
             // 对话已经完成
             if (data.header.status === 2) {
-                let function_call = data.payload.choices.text[0].function_call;
+                let function_call = data?.payload?.choices?.text[0]?.function_call;
                 if (function_call) {
                     let name = function_call.name;
                     let params = JSON.parse(function_call.arguments);
