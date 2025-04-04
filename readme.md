@@ -19,6 +19,10 @@
 
 ## 项目介绍（实现的功能）
 
+- 接入讯飞图片生成，根据对话内容生成图片（需要启动后台服务）
+
+  - 后台地址[zou-hong-run/xinghuo_image: 讯飞AI文字图像生成（独立后台）](https://github.com/zou-hong-run/xinghuo_image)
+
 - 接入讯飞星火**4.0 Ultra**大模型 `API` ,
 
 - 接入 `function call`  
@@ -36,16 +40,14 @@
 
   
 ## 体验地址（感谢git pages）
-https://zou-hong-run.github.io/xinghuo/dist/index.html
-new
+- 全新版本
+  - 体验地址：
+    - https://zou-hong-run.github.io/xinghuo/dist/index.html
+    - ![demo](readme.assets/demo.gif)
+  - ![image-20250404123639923](readme.assets/image-20250404123639923.png)
 
-![demo](readme.assets/demo.gif)
-
-![image-20250223163950477](readme.assets/image-20250223163950477.png)
-
-old
-
-![在这里插入图片描述](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81a346ca522a46a7b585b389f622a996~tplv-k3u1fbpfcp-zoom-1.image)
+- 旧版本
+  - ![](readme.assets/old.gif)
 
 ## 小提示
 

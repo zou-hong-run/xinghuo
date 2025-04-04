@@ -1,5 +1,5 @@
 import CryptoJs from 'crypto-js'
-import Functions from './functions'
+import Functions from '../functions'
 const signatureToHmacSHA256ToBase64 = (origin, secret) => {
   let signatureSha = CryptoJs.HmacSHA256(origin, secret);
   let signature = CryptoJs.enc.Base64.stringify(signatureSha);

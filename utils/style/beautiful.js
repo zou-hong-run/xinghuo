@@ -1,3 +1,19 @@
+const parseContent = (content) => {
+  // 首先检查是否是Base64图片数据
+  if (isBase64Image(content)) {
+    return `<img src="${content}" alt="Generated image" style="max-width:100%;"/>`;
+  }
+
+  // 否则当作普通文本处理，解析其中的代码块
+  return parseCodeBlocks(content);
+};
+
+// 检查是否是Base64图片
+const isBase64Image = (str) => {
+  // 简单的Base64图片检测
+  return str.startsWith('data:image/');
+};
+
 const parseCodeBlocks = (content) => {
   // 匹配代码块的正则表达式
   const codeBlockRegex = /```(\w+)?\s*([\s\S]*?)```/g;
@@ -11,7 +27,7 @@ const parseCodeBlocks = (content) => {
   });
 };
 
-// 高亮代码
+// 高亮代码（保持不变）
 const highlightCode = (code, language) => {
   if (language === "javascript") {
     // 1. 匹配字符串
@@ -26,13 +42,13 @@ const highlightCode = (code, language) => {
       '<span class="keyword">$&</span>'
     );
 
-    // 3. 匹配函数名（避免函数名被字符串内容干扰）
+    // 3. 匹配函数名
     code = code.replace(
       /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
       (match, p1) => `<span class="function">${p1}</span>(`
     );
 
-    // 4. 匹配 console.log 中的 log（作为内置函数）
+    // 4. 匹配 console.log
     code = code.replace(
       /\b(console\.log)\b/g,
       '<span class="function">$&</span>'
@@ -85,4 +101,4 @@ const highlightCode = (code, language) => {
 <span class="function">greet</span>(<span class="string">"Alice"</span>);</code></pre>
  */
 
-export { parseCodeBlocks };
+export { parseContent };

@@ -1,168 +1,210 @@
-
-import { getParams, getWSConnect } from "./utils/spark";
-import { parseCodeBlocks } from "./utils/common";
+import { getParams, getWSConnect } from "./utils/gpt/spark";
+import { parseContent } from "./utils/style/beautiful";
 import * as ChatHistory from './utils/storage'
-import Functions from "./utils/functions";
-let questi = document.querySelector("#question");
-let sendMsgBtn = document.querySelector("#btn");
-let result = document.querySelector("#result");
-let results = document.querySelector("#results");
-let clearbtn = document.querySelector("#clearBtn")
-clearbtn.addEventListener("click", () => {
-    let isClear = window.confirm("确定要清除吗？")
-    if (isClear) {
-        ChatHistory.clearChatHistory()
-        window.location.reload()
-    }
-})
-// let chatHistoryList = getChatHistory();
+import Functions from "./utils/functions/index";
 
-// 点击发送信息按钮
+const questi = document.querySelector("#question");
+const sendMsgBtn = document.querySelector("#btn");
+const result = document.querySelector("#result");
+const results = document.querySelector("#results");
+const clearbtn = document.querySelector("#clearBtn");
+
+// 清除历史记录
+clearbtn.addEventListener("click", () => {
+    const isClear = window.confirm("确定要清除所有聊天记录吗？此操作不可撤销。");
+    if (isClear) {
+        ChatHistory.clearChatHistory();
+        window.location.reload();
+    }
+});
+
+// 发送消息按钮点击事件
 sendMsgBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     sendMsg();
 });
 
-// 输入完信息点击enter发送信息
+// 输入框回车事件
 questi.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
         sendMsg();
     }
 });
 
+// 创建加载动画
+const createLoadingDots = () => {
+    const loadingDiv = document.createElement("div");
+    loadingDiv.className = "loading-dots";
+    loadingDiv.innerHTML = `
+    <div></div>
+    <div></div>
+    <div></div>
+  `;
+    return loadingDiv;
+};
+
 // 发送消息
 const sendMsg = async () => {
-    sendMsgBtn.style.display = "none";
-    let answer = ""; // 回答
+    const inputVal = questi.value.trim();
+    if (!inputVal) return;
 
-    // 获取输入框中的内容
-    let inputVal = questi.value;
-    ChatHistory.addChatMessage("user", inputVal)
-    // chatHistoryList.push({ role: "user", content: inputVal });
+    // 禁用按钮和输入框
+    sendMsgBtn.disabled = true;
+    questi.disabled = true;
+    sendMsgBtn.textContent = "发送中...";
+
+    // 保存用户消息
+    ChatHistory.addChatMessage("user", inputVal);
     questi.value = "";
 
-    // 渲染用户的输入内容
-    let userMessageDiv = createMessageDiv("user");
+    // 渲染用户消息
+    const userMessageDiv = createMessageDiv("user");
     updateMessageContent(userMessageDiv, inputVal);
     result.appendChild(userMessageDiv);
-
-    // 确保用户消息渲染后滚动到底部
     scrollToBottom();
 
-    const params = getParams(ChatHistory.getChatHistory());
-
-    // 每次发送问题 都是一个新的websocket请求
-    const connect = await getWSConnect();
-    console.log("发送消息");
-    connect.send(JSON.stringify(params));
-
-    // 创建一个新的消息容器用于实时显示回答
-    let assistantMessageDiv = createMessageDiv("assistant");
+    // 创建并显示加载动画
+    const assistantMessageDiv = createMessageDiv("assistant");
+    const loadingDots = createLoadingDots();
+    assistantMessageDiv.querySelector(".content").appendChild(loadingDots);
     result.appendChild(assistantMessageDiv);
+    scrollToBottom();
 
-    connect.addEventListener("message", (event) => {
-        let data = JSON.parse(event.data);
-        if (data.header.code !== 0) {
-            console.log("出错了", data.header.code, ":", data.header.message);
-            // 出错了"手动关闭连接"
-            connect.close();
-        }
-        if (data.header.code === 0) {
-            // 实时更新回答内容
+    try {
+        const params = getParams(ChatHistory.getChatHistory());
+        const connect = await getWSConnect();
+        let answer = "";
+
+        connect.send(JSON.stringify(params));
+
+        connect.addEventListener("message", async (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.header.code !== 0) {
+                console.error("Error:", data.header.message);
+                updateMessageContent(assistantMessageDiv, `抱歉，出现错误: ${data.header.message}`);
+                connect.close();
+                return;
+            }
+
             if (data.payload.choices.text) {
                 answer += data.payload.choices.text[0].content;
-            }
-            updateMessageContent(assistantMessageDiv, answer);
-            // 每次更新内容后滚动到底部
-            scrollToBottom();
-            // 对话已经完成
-            if (data.header.status === 2) {
-                let function_call = data?.payload?.choices?.text[0]?.function_call;
-                if (function_call) {
-                    let name = function_call.name;
-                    let params = JSON.parse(function_call.arguments);
-                    // console.log(name,params);
-                    let target = Functions.getFunctionByName(name);
-                    if (target) {
-                        // 返回一个promise，可以自定义answer返回答案
-                        target.handler(params)
-                    }
-                    // 默认回答
-                    answer = `已为您处理任务：${name}，参数：${JSON.stringify(params)}`
-                }
-                ChatHistory.addChatMessage("assistant", answer)
-                // chatHistoryList.push({
-                //     role: "assistant",
-                //     content: answer,
-                // });
-                // 更新页面内容
+                // 移除加载动画并更新内容
+                loadingDots.remove();
                 updateMessageContent(assistantMessageDiv, answer);
-                // 每次更新内容后滚动到底部
                 scrollToBottom();
-                answer = "";
+            }
+
+            if (data.header.status === 2) {
+                // 处理函数调用
+                const function_call = data?.payload?.choices?.text[0]?.function_call;
+                if (function_call) {
+                    const name = function_call.name;
+                    const params = JSON.parse(function_call.arguments);
+                    const target = Functions.getFunctionByName(name);
+
+                    if (target) {
+                        // 显示正在处理函数的提示
+                        updateMessageContent(assistantMessageDiv, `${answer}<br><br><i>正在处理 ${name} 请求...</i>`);
+                        scrollToBottom();
+
+                        try {
+                            const res = await target.handler(name, params);
+                            answer = res;
+                        } catch (error) {
+                            answer = `处理 ${name} 请求时出错: ${error.message}`;
+                        }
+                    }
+                }
+
+                // 保存最终回答
+                ChatHistory.addChatMessage("assistant", answer);
+                updateMessageContent(assistantMessageDiv, answer);
+                scrollToBottom();
+
                 setTimeout(() => {
-                    // "对话完成，手动关闭连接"
                     connect.close();
                 }, 1000);
-                sendMsgBtn.style.display = "block";
-                questi.value = "继续聊天";
             }
-        }
-    });
+        });
 
-    connect.addEventListener("close", (event) => {
-        console.log("聊天完成关闭", event);
-        // 清空输入框
-        questi.value = "";
-    });
+        connect.addEventListener("close", () => {
+            sendMsgBtn.disabled = false;
+            questi.disabled = false;
+            questi.value = "";
+            questi.focus();
+            sendMsgBtn.textContent = "发送";
+        });
+
+        connect.addEventListener("error", (error) => {
+            console.error("WebSocket error:", error);
+            updateMessageContent(assistantMessageDiv, "抱歉，连接出现错误，请重试。");
+            sendMsgBtn.disabled = false;
+            questi.disabled = false;
+            sendMsgBtn.textContent = "发送";
+        });
+
+    } catch (error) {
+        console.error("Error:", error);
+        updateMessageContent(assistantMessageDiv, "抱歉，发送消息时出现错误，请重试。");
+        sendMsgBtn.disabled = false;
+        questi.disabled = false;
+        sendMsgBtn.textContent = "发送";
+    }
 };
 
 /** 创建消息容器 */
 const createMessageDiv = (role) => {
-    let messageDiv = document.createElement("div");
-    messageDiv.classList.add("message"); // 添加通用的 message 类名以应用样式
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${role}-message`;
 
-    // 根据角色决定样式，用户和助手的消息可以有不同的显示风格
-    if (role === "user") {
-        messageDiv.classList.add("user-message");
-        let userAvatar = document.createElement("img"); // 创建用户头像元素
-        userAvatar.src = "./redrun.avif"; // 设置用户头像图片路径
-        userAvatar.alt = "User Avatar"; // 设置替代文本
-        userAvatar.classList.add("avatar"); // 添加头像样式类名
-        messageDiv.prepend(userAvatar); // 将头像添加到消息前面
-    } else if (role === "assistant") {
-        messageDiv.classList.add("assistant-message");
-        let assistantAvatar = document.createElement("img"); // 创建助手头像元素
-        assistantAvatar.src = "./spark.png"; // 设置助手头像图片路径
-        assistantAvatar.alt = "Assistant Avatar"; // 设置替代文本
-        assistantAvatar.classList.add("avatar"); // 添加头像样式类名
-        messageDiv.prepend(assistantAvatar); // 将头像添加到消息前面
-    }
+    const avatar = document.createElement("img");
+    avatar.className = "avatar";
+    avatar.src = role === "user" ? "./redrun.avif" : "./spark.png";
+    avatar.alt = `${role} avatar`;
 
-    // 创建内容容器
-    let contentDiv = document.createElement("div");
-    contentDiv.classList.add("content");
-    messageDiv.appendChild(contentDiv);
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "content";
 
+    messageDiv.append(avatar, contentDiv);
     return messageDiv;
 };
 
 /** 更新消息内容 */
 const updateMessageContent = (messageDiv, content) => {
-    let contentDiv = messageDiv.querySelector(".content");
-    contentDiv.innerHTML = parseCodeBlocks(content);
+    const contentDiv = messageDiv.querySelector(".content");
+    contentDiv.innerHTML = parseContent(content);
 };
 
-/** 滚动到底部 */
+/** 平滑滚动到底部 */
 const scrollToBottom = () => {
-    results.scrollTop = results.scrollHeight;
+    results.scrollTo({
+        top: results.scrollHeight,
+        behavior: 'smooth'
+    });
 };
 
 // 初始化页面时显示历史消息
-ChatHistory.getChatHistory().forEach((item) => {
-    let messageDiv = createMessageDiv(item.role);
-    updateMessageContent(messageDiv, item.content);
-    result.appendChild(messageDiv);
-});
+const initChatHistory = () => {
+    const history = ChatHistory.getChatHistory();
+    if (history.length === 0) {
+        // 添加欢迎消息
+        const welcomeMessage = createMessageDiv("assistant");
+        updateMessageContent(welcomeMessage, "您好！我是讯飞星火认知大模型，有什么可以帮您的吗？");
+        result.appendChild(welcomeMessage);
+    } else {
+        history.forEach((item) => {
+            const messageDiv = createMessageDiv(item.role);
+            updateMessageContent(messageDiv, item.content);
+            result.appendChild(messageDiv);
+        });
+    }
+    scrollToBottom();
+};
 
-// 初始化时滚动到底部
-scrollToBottom();
+// 初始化聊天界面
+initChatHistory();
+
+// 自动聚焦输入框
+questi.focus();
