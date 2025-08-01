@@ -174,7 +174,8 @@ const createMessageDiv = (role) => {
 /** 更新消息内容 */
 const updateMessageContent = (messageDiv, content) => {
     const contentDiv = messageDiv.querySelector(".content");
-    contentDiv.innerHTML = parseContent(content);
+    // Sanitize content before setting it to innerHTML to prevent DOMXSS
+    contentDiv.textContent = parseContent(content);
 };
 
 /** 平滑滚动到底部 */
