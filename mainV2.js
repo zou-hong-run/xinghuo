@@ -63,6 +63,12 @@ const sendMsg = async () => {
         socket.send(JSON.stringify(params))
     })
     socket.addEventListener('message', (event) => {
+        // Validate the origin of the message
+        if (event.origin !== "https://trusted-origin.com") {
+            console.log("Untrusted origin: ", event.origin);
+            return;
+        }
+
         let data = JSON.parse(event.data)
         // console.log('收到消息！！',data);
         requestObj.sparkResult += data.payload.choices.text[0].content
